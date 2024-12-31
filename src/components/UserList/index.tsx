@@ -1,8 +1,15 @@
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { FC } from "react";
 import { ModalProps } from "./types";
+import {
+  Avatar,
+  Button,
+  Divider,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+} from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -11,10 +18,13 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  outline: "none",
   boxShadow: 24,
-  p: 4,
+  borderRadius: "10px",
+  p: 2,
 };
+
+const task = [1, 1, 1, 1];
 
 const UserList: FC<ModalProps> = ({ handleClose, open }) => {
   return (
@@ -26,9 +36,27 @@ const UserList: FC<ModalProps> = ({ handleClose, open }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            User List Modal
-          </Typography>
+          {task.map((item, index) => (
+            <>
+              <div className="flex items-center justify-between w-full">
+                <div>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={"Code with Zosh"}
+                      secondary={"@shubair_raza"}
+                    />
+                  </ListItem>
+                </div>
+                <div>
+                  <Button className="customButton">Select</Button>
+                </div>
+              </div>
+              {index != task.length - 1 && <Divider variant="inset" />}
+            </>
+          ))}
         </Box>
       </Modal>
     </div>
