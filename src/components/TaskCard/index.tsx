@@ -4,7 +4,7 @@ import "./style.css";
 import { useState } from "react";
 import UserList from "../UserList";
 import SubmissionList from "../SubmissionList";
-import EditTaskUserForm from "../EditTaskForm/indext";
+import EditTaskForm from "../EditTaskForm/indext";
 const role = "ROLE_ADMIN";
 const TaskCard = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -138,7 +138,7 @@ const TaskCard = () => {
         open={openSubmissionList}
         handleClose={handleCloseSubmissionList}
       />
-      <EditTaskUserForm
+      <EditTaskForm
         open={openEditTaskForm}
         handleClose={handleCloseUpdateTaskForm}
       />

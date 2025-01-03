@@ -1,8 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { FC } from "react";
-import { ModalProps } from "./types";
+import { FC, useEffect, useState } from "react";
+import { FormData, ModalProps } from "./types";
+import { Autocomplete, Button, Grid2, TextField } from "@mui/material";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import moment from "moment";
 
 const style = {
   position: "absolute",
@@ -15,8 +21,41 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+const tags = ["Angular", "React", "Java", "Micro-Services", "NodeJS"];
+const EditTaskForm: FC<ModalProps> = ({ handleClose, open }) => {
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [formData, setFormData] = useState<FormData>({
+    title: "",
+    image: "",
+    description: "",
+    tag: [],
+    deadline: "",
+  });
 
-const EditTaskUserForm: FC<ModalProps> = ({ handleClose, open }) => {
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+  const handleTagsChange = (event: any, value: string[]) => {
+    setSelectedTags(value);
+  };
+  const handleDeadlineChange = (date: any) => {
+    setFormData({
+      ...formData,
+      deadline: moment(date.$d).format("YYYY-MM-DD"),
+    });
+  };
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    formData.tag = selectedTags;
+    handleClose(false);
+  };
+
+  // useEffect(() => {}, []);
+
   return (
     <div>
       <Modal
@@ -26,13 +65,77 @@ const EditTaskUserForm: FC<ModalProps> = ({ handleClose, open }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Edit Task User Form Modal
-          </Typography>
+          <form onSubmit={handleSubmit}>
+            <Grid2 container spacing={2} alignItems={"center"}>
+              <Grid2 size={{ xs: 12 }}>
+                <TextField
+                  label="Title"
+                  name="title"
+                  fullWidth
+                  value={formData.title}
+                  onChange={handleChange}
+                />
+              </Grid2>
+              <Grid2 size={{ xs: 12 }}>
+                <TextField
+                  label="Image"
+                  name="image"
+                  fullWidth
+                  value={formData.image}
+                  onChange={handleChange}
+                />
+              </Grid2>
+              <Grid2 size={{ xs: 12 }}>
+                <TextField
+                  label="Description"
+                  name="description"
+                  fullWidth
+                  multiline
+                  rows={4}
+                  value={formData.description}
+                  onChange={handleChange}
+                />
+              </Grid2>
+              <Grid2 size={{ xs: 12 }}>
+                <Autocomplete
+                  multiple
+                  id="multiple-limit-tags"
+                  options={tags}
+                  onChange={handleTagsChange}
+                  getOptionLabel={(option) => option}
+                  renderInput={(params) => (
+                    <TextField label="Tags" {...params} />
+                  )}
+                />
+              </Grid2>
+              <Grid2 size={{ xs: 12 }}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DatePicker"]}>
+                    <DatePicker
+                      onChange={handleDeadlineChange}
+                      className="w-full"
+                      label="Deadline"
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </Grid2>
+              <Grid2 size={{ xs: 12 }}>
+                <Button
+                  className="customButton"
+                  type="submit"
+                  fullWidth
+                  sx={{ padding: "0.9rem" }}
+                  onClick={handleSubmit}
+                >
+                  Update
+                </Button>
+              </Grid2>
+            </Grid2>
+          </form>
         </Box>
       </Modal>
     </div>
   );
 };
 
-export default EditTaskUserForm;
+export default EditTaskForm;

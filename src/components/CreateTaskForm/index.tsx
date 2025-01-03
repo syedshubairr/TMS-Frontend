@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { FC, useState } from "react";
