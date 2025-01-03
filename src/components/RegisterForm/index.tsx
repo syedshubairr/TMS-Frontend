@@ -1,9 +1,18 @@
-import { Button, TextField } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { FC, useState } from "react";
 import { RegisterFormProps } from "./types";
 
 const RegisterForm: FC<RegisterFormProps> = ({ togglePanel }) => {
   const [formData, setFormData] = useState({
+    fullName: "",
+    role: "",
     email: "",
     password: "",
   });
@@ -24,6 +33,15 @@ const RegisterForm: FC<RegisterFormProps> = ({ togglePanel }) => {
       <form onSubmit={handleSubmit} className="space-y-3">
         <TextField
           fullWidth
+          label="Full Name"
+          name="fullName"
+          type="fullName"
+          value={formData.fullName}
+          onChange={handleChange}
+          placeholder="Enter your Full Name..."
+        />
+        <TextField
+          fullWidth
           label="Email"
           name="email"
           type="email"
@@ -40,6 +58,20 @@ const RegisterForm: FC<RegisterFormProps> = ({ togglePanel }) => {
           onChange={handleChange}
           placeholder="Enter your password..."
         />
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Role</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            name="role"
+            value={formData.role}
+            label="Role"
+            onChange={handleChange}
+          >
+            <MenuItem value={"ROLE_USER"}>USER</MenuItem>
+            <MenuItem value={"ROLE_ADMIN"}>ADMIN</MenuItem>
+          </Select>
+        </FormControl>
         <div>
           <Button
             className="customButton"
