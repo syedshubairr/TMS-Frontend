@@ -1,19 +1,15 @@
 import { useState } from "react";
 import "./styles.css";
-import LoginForm from "../../components/LoginForm";
-import RegisterForm from "../../components/RegisterForm";
 import { Box, Tab, Tabs, useTheme } from "@mui/material";
 import { TabPanel } from "../../components/TabPanel";
+import LoginForm from "../../components/AuthForms/LoginForm";
+import RegisterForm from "../../components/AuthForms/RegisterForm";
 
 const Auth = () => {
   const theme = useTheme();
-  const [value, setValue] = useState(0);
   const [onRegister, setOnRegister] = useState<boolean>(false);
   const togglePanel = () => {
     setOnRegister(!onRegister);
-  };
-  const handleChange = (event: any, newValue: number) => {
-    setValue(newValue);
   };
   function a11yProps(index: number) {
     return {
@@ -26,18 +22,18 @@ const Auth = () => {
       <div className="box lg:max-w-4xl">
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
-            value={value}
-            onChange={handleChange}
+            value={Number(onRegister)}
+            onChange={togglePanel}
             variant="fullWidth"
             aria-label="Login and Register Tabs"
           >
             <Tab label="Login" {...a11yProps(0)} />
             <Tab label="Register" {...a11yProps(1)} />
           </Tabs>
-          <TabPanel value={value} index={0} dir={theme.direction}>
+          <TabPanel value={Number(onRegister)} index={0} dir={theme.direction}>
             <LoginForm togglePanel={togglePanel} />
           </TabPanel>
-          <TabPanel value={value} index={1} dir={theme.direction}>
+          <TabPanel value={Number(onRegister)} index={1} dir={theme.direction}>
             <RegisterForm togglePanel={togglePanel} />
           </TabPanel>
         </Box>

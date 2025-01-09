@@ -1,18 +1,9 @@
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { FC, useState } from "react";
-import { RegisterFormProps } from "./types";
+import { AuthFormProps } from "./types";
 
-const RegisterForm: FC<RegisterFormProps> = ({ togglePanel }) => {
+const LoginForm: FC<AuthFormProps> = ({ togglePanel }) => {
   const [formData, setFormData] = useState({
-    fullName: "",
-    role: "",
     email: "",
     password: "",
   });
@@ -29,17 +20,8 @@ const RegisterForm: FC<RegisterFormProps> = ({ togglePanel }) => {
   };
   return (
     <div>
-      <h1 className="text-lg font-bold text-center pb-8">Register</h1>
+      <h1 className="text-lg font-bold text-center pb-8">Login</h1>
       <form onSubmit={handleSubmit} className="space-y-3">
-        <TextField
-          fullWidth
-          label="Full Name"
-          name="fullName"
-          type="fullName"
-          value={formData.fullName}
-          onChange={handleChange}
-          placeholder="Enter your Full Name..."
-        />
         <TextField
           fullWidth
           label="Email"
@@ -58,20 +40,6 @@ const RegisterForm: FC<RegisterFormProps> = ({ togglePanel }) => {
           onChange={handleChange}
           placeholder="Enter your password..."
         />
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Role</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            name="role"
-            value={formData.role}
-            label="Role"
-            onChange={handleChange}
-          >
-            <MenuItem value={"ROLE_USER"}>USER</MenuItem>
-            <MenuItem value={"ROLE_ADMIN"}>ADMIN</MenuItem>
-          </Select>
-        </FormControl>
         <div>
           <Button
             className="customButton"
@@ -80,16 +48,16 @@ const RegisterForm: FC<RegisterFormProps> = ({ togglePanel }) => {
             sx={{ padding: "0.9rem" }}
             onClick={handleSubmit}
           >
-            Register
+            SignUp
           </Button>
         </div>
       </form>
-      <div className="mt-5 flex items-center gap-2 py-5 justify-center">
+      <div className="mt-3 flex items-center gap-2 py-5 justify-center">
         <span>Don't have an account?</span>
-        <Button onClick={togglePanel}>Login</Button>
+        <Button onClick={togglePanel}>Register</Button>
       </div>
     </div>
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

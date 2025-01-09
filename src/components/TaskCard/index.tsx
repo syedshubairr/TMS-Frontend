@@ -2,9 +2,9 @@ import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./style.css";
 import { useState } from "react";
-import UserList from "../UserList";
-import SubmissionList from "../SubmissionList";
-import EditTaskForm from "../EditTaskForm/indext";
+import UserList from "./ListAndForms/UserList";
+import EditTaskForm from "./ListAndForms/EditTaskForm";
+import SubmissionList from "./ListAndForms/SubmissionList";
 const role = "ROLE_ADMIN";
 const TaskCard = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

@@ -2,7 +2,7 @@ import { Avatar, Button } from "@mui/material";
 import "./style.css";
 import { handleLogout, menu } from "./utils";
 import { useState } from "react";
-import CreateNewTaskForm from "../CreateTaskForm";
+import CreateNewTaskForm from "../TaskCard/ListAndForms/CreateTaskForm";
 
 const Sidebar = () => {
   const [activeMenu, setActiveMenu] = useState("Home");
