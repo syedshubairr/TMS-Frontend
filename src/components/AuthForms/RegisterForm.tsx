@@ -29,7 +29,6 @@ const RegisterForm: FC<AuthFormProps> = ({ togglePanel }) => {
   };
   return (
     <div>
-      <h1 className="text-lg font-bold text-center pb-8">Register</h1>
       <form onSubmit={handleSubmit} className="space-y-3">
         <TextField
           fullWidth
@@ -84,7 +83,7 @@ const RegisterForm: FC<AuthFormProps> = ({ togglePanel }) => {
           </Button>
         </div>
       </form>
-      <div className="mt-5 flex items-center gap-2 py-5 justify-center">
+      <div className="mt-3 flex items-center gap-2 py-5 justify-center">
         <span>Already have an account?</span>
         <Button onClick={togglePanel}>Login</Button>
       </div>

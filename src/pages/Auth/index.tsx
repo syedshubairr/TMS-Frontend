@@ -15,6 +15,7 @@ const Auth = () => {
     return {
       id: `simple-tab-${index}`,
       "aria-controls": `simple-tabpanel-${index}`,
+      className: "text-lg font-semibold",
     };
   }
   return (
@@ -27,8 +28,16 @@ const Auth = () => {
             variant="fullWidth"
             aria-label="Login and Register Tabs"
           >
-            <Tab label="Login" {...a11yProps(0)} />
-            <Tab label="Register" {...a11yProps(1)} />
+            <Tab
+              sx={{ fontWeight: 700, fontSize: 20 }}
+              label="Login"
+              {...a11yProps(0)}
+            />
+            <Tab
+              sx={{ fontWeight: 700, fontSize: 20 }}
+              label="Register"
+              {...a11yProps(1)}
+            />
           </Tabs>
           <TabPanel value={Number(onRegister)} index={0} dir={theme.direction}>
             <LoginForm togglePanel={togglePanel} />

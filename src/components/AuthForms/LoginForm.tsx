@@ -20,7 +20,6 @@ const LoginForm: FC<AuthFormProps> = ({ togglePanel }) => {
   };
   return (
     <div>
-      <h1 className="text-lg font-bold text-center pb-8">Login</h1>
       <form onSubmit={handleSubmit} className="space-y-3">
         <TextField
           fullWidth
