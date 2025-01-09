@@ -19,14 +19,15 @@ const Auth = () => {
     };
   }
   return (
-    <div className="flex justify-center h-screen items-center overflow-hidden ">
+    <div className="flex justify-center h-screen items-center overflow-hidden">
       <div className="box lg:max-w-4xl">
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Box>
           <Tabs
             value={Number(onRegister)}
             onChange={togglePanel}
             variant="fullWidth"
             aria-label="Login and Register Tabs"
+            className="pb-5"
           >
             <Tab
               sx={{ fontWeight: 700, fontSize: 20 }}
