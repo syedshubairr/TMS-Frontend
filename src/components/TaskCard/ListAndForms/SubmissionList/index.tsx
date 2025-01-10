@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { ModalProps } from "./types";
 import { FC } from "react";
-import SubmissionCard from "../SubmissionCard";
+import SubmissionCard from "../../../SubmissionCard";
 
 const style = {
   position: "absolute",

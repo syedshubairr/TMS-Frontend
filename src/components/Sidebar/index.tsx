@@ -3,9 +3,12 @@ import "./style.css";
 import { handleLogout, menu } from "./utils";
 import { useState } from "react";
 import CreateNewTaskForm from "../TaskCard/ListAndForms/CreateTaskForm";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const [activeMenu, setActiveMenu] = useState("Home");
+  const location = useLocation();
+  const navigate = useNavigate();
   const [openCreateTaskForm, setCreateEditTaskForm] = useState<boolean>(false);
   const handleOpenCreateTaskForm = () => {
     setCreateEditTaskForm(true);
@@ -14,8 +17,19 @@ const Sidebar = () => {
     setCreateEditTaskForm(false);
   };
   const handleMenuChange = (menuItem: string) => {
+    const updatedParams = new URLSearchParams(location.search);
     if (menuItem == "Create New Task") {
       handleOpenCreateTaskForm();
+    } else if (menuItem == "Home") {
+      updatedParams.delete("filter");
+      const queryString = updatedParams.toString();
+      const updatedPath = queryString
+        ? `${location.pathname}?${queryString}`
+        : location.pathname;
+      navigate(updatedPath);
+    } else {
+      updatedParams.set("filter", menuItem);
+      navigate(`${location.pathname}?${updatedParams.toString()}`);
     }
     setActiveMenu(menuItem);
   };

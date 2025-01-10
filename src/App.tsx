@@ -5,11 +5,17 @@ import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 
 function App() {
+  const user = true;
   return (
     <ThemeProvider theme={darkTheme}>
-      {/* <Navbar /> */}
-      {/* <Home /> */}
-      <Auth />
+      {user ? (
+        <div>
+          <Navbar />
+          <Home />
+        </div>
+      ) : (
+        <Auth />
+      )}
     </ThemeProvider>
   );
 }
