@@ -1,0 +1,120 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { api, setAuthHeader } from "../apiClient";
+import { taskDataType } from "./types";
+
+export const fetchTasks = createAsyncThunk(
+  "task/fetchTasks",
+  async ({ status }: { status: boolean }) => {
+    setAuthHeader(localStorage.getItem("jwt"), api);
+    try {
+      const { data } = await api.get("api/task", {
+        params: { status },
+      });
+      console.log("fetch tasks: ", data);
+      return data;
+    } catch (error: any) {
+      console.log("error: ", error);
+      throw Error(error.response.data.error);
+    }
+  }
+);
+
+export const fetchUsersTasks = createAsyncThunk(
+  "task/fetchUsersTasks",
+  async ({ status }: { status: boolean }) => {
+    setAuthHeader(localStorage.getItem("jwt"), api);
+    try {
+      const { data } = await api.get("api/task/user", {
+        params: { status },
+      });
+      console.log("fetch users tasks: ", data);
+      return data;
+    } catch (error: any) {
+      console.log("error: ", error);
+      throw Error(error.response.data.error);
+    }
+  }
+);
+
+export const fetchTaskById = createAsyncThunk(
+  "task/fetchTaskById",
+  async ({ taskId }: { taskId: number }) => {
+    setAuthHeader(localStorage.getItem("jwt"), api);
+    try {
+      const { data } = await api.get(`api/tasks/${taskId}`);
+      console.log("fetch tasks by id: ", data);
+      return data;
+    } catch (error: any) {
+      console.log("error: ", error);
+      throw Error(error.response.data.error);
+    }
+  }
+);
+
+export const createTask = createAsyncThunk(
+  "task/createTask",
+  async (taskData: taskDataType) => {
+    setAuthHeader(localStorage.getItem("jwt"), api);
+    try {
+      const { data } = await api.post(`api/tasks`, taskData);
+      console.log("create tasks", data);
+      return data;
+    } catch (error: any) {
+      console.log("error: ", error);
+      throw Error(error.response.data.error);
+    }
+  }
+);
+
+export const updateTask = createAsyncThunk(
+  "task/updateTask",
+  async ({
+    id,
+    updateTaskData,
+  }: {
+    id: number;
+    updateTaskData: taskDataType;
+  }) => {
+    setAuthHeader(localStorage.getItem("jwt"), api);
+    try {
+      const { data } = await api.put(`api/tasks/${id}`, updateTaskData);
+      console.log("updated tasks", data);
+      return data;
+    } catch (error: any) {
+      console.log("error: ", error);
+      throw Error(error.response.data.error);
+    }
+  }
+);
+
+export const assignTaskToUser = createAsyncThunk(
+  "task/assignTaskToUser",
+  async ({ taskId, userId }: { taskId: number; userId: number }) => {
+    setAuthHeader(localStorage.getItem("jwt"), api);
+    try {
+      const { data } = await api.put(
+        `api/tasks/${taskId}/user/${userId}/assigned`
+      );
+      console.log("assign Task To User: ", data);
+      return data;
+    } catch (error: any) {
+      console.log("error: ", error);
+      throw Error(error.response.data.error);
+    }
+  }
+);
+
+export const deleteTask = createAsyncThunk(
+  "task/deleteTask",
+  async (taskId: number) => {
+    setAuthHeader(localStorage.getItem("jwt"), api);
+    try {
+      const { data } = await api.delete(`api/tasks/${taskId}`);
+      console.log("delete Task done", data);
+      return taskId;
+    } catch (error: any) {
+      console.log("error: ", error);
+      throw Error(error.response.data.error);
+    }
+  }
+);
