@@ -7,10 +7,35 @@ export interface userInitialState {
   users: [] | userType[];
 }
 
-interface userType {
+type userType = {
   id: number;
   password: string;
   email: string;
   role: "ROLE_ADMIN" | "ROLE_CUSTOMER";
   fullName: string;
+};
+
+enum TaskStatus {
+  PENDING = "PENDING",
+  ASSIGNED = "ASSIGNED",
+  DONE = "DONE",
 }
+type taskType = {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  assignedUserId: number;
+  tags: string[];
+  deadline: string;
+  createdAt: string;
+  status: TaskStatus;
+};
+
+export type taskInitialState = {
+  tasks: taskType[];
+  loading: boolean;
+  error: null | string | undefined;
+  taskDetails: null | taskType;
+  userTasks: taskType[];
+};
