@@ -1,7 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { thunk } from "redux-thunk";
+import authSlice from "./authSlice";
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+  auth: authSlice,
+});
 
 export const store = configureStore({
   reducer: rootReducer,
