@@ -31,11 +31,28 @@ type taskType = {
   createdAt: string;
   status: TaskStatus;
 };
-
 export type taskInitialState = {
   tasks: taskType[];
   loading: boolean;
   error: null | string | undefined;
   taskDetails: null | taskType;
   userTasks: taskType[];
+};
+export type submissionInitialState = {
+  submissions: Submission[];
+  status: "PENDING" | "SUCCEEDED" | "FAILED";
+  error: null | string | undefined;
+};
+enum SubmissionStatus {
+  PENDING = "PENDING",
+  COMPLETED = "COMPLETED",
+}
+
+type Submission = {
+  id: number;
+  taskId: number;
+  githubLink: string;
+  userId: number;
+  status: SubmissionStatus;
+  submissionTime: string;
 };
