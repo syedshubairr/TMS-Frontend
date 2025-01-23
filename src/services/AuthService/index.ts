@@ -6,11 +6,15 @@ export const login = createAsyncThunk(
   "auth/login",
   async (userData: userDataType) => {
     try {
-      const data: authResponse = await api.post("/auth/signin", userData);
-      localStorage.setItem("token", data.jwt);
+      const { data }: { data: authResponse } = await api.post(
+        "/auth/signin",
+        userData
+      );
+      localStorage.setItem("jwt", data.jwt);
+      console.log("Login response", data);
       return data;
     } catch (error) {
-      console.log("Login Response Error", error);
+      console.error("Login Response Error", error);
       throw Error(error.response.data.message);
     }
   }
@@ -20,8 +24,11 @@ export const register = createAsyncThunk(
   "auth/signup",
   async (registerData: registerProps) => {
     try {
-      const data: authResponse = await api.post("/auth/signup", registerData);
-      localStorage.setItem("token", data.jwt);
+      const { data }: { data: authResponse } = await api.post(
+        "/auth/signup",
+        registerData
+      );
+      localStorage.setItem("jwt", data.jwt);
       return data;
     } catch (error) {
       console.log("Register Response Error", error);
@@ -44,11 +51,12 @@ export const getUserProfile = createAsyncThunk(
   async (jwt: string) => {
     setAuthHeader(jwt, api);
     try {
-      const data = await api.get("api/user/profile");
+      const data = await api.get("api/users/profile");
       console.log("Get Profile Success", data);
       return data;
     } catch (error) {
       console.log("Get Profile Error", error);
+      localStorage.removeItem("jwt");
       throw Error(error.response.data.message);
     }
   }

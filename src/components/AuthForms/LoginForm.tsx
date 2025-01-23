@@ -1,8 +1,11 @@
 import { Button, TextField } from "@mui/material";
 import { FC, useState } from "react";
 import { AuthFormProps } from "./types";
+import { useAppDispatch } from "../../redux/store";
+import { login } from "../../services/AuthService";
 
 const LoginForm: FC<AuthFormProps> = ({ togglePanel }) => {
+  const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,6 +19,7 @@ const LoginForm: FC<AuthFormProps> = ({ togglePanel }) => {
   };
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    dispatch(login(formData));
     console.log("Signup Form Data", formData);
   };
   return (

@@ -1,12 +1,13 @@
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./style.css";
-import { useState } from "react";
+import { FC, useState } from "react";
 import UserList from "./ListAndForms/UserList";
 import EditTaskForm from "./ListAndForms/EditTaskForm";
 import SubmissionList from "./ListAndForms/SubmissionList";
+import { TaskCardType } from "./types";
 const role = "ROLE_ADMIN";
-const TaskCard = () => {
+const TaskCard: FC<TaskCardType> = ({ task }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openUserList, setOpenUserList] = useState<boolean>(false);
   const [openSubmissionList, setOpenSubmissionList] = useState<boolean>(false);
@@ -59,20 +60,18 @@ const TaskCard = () => {
           <div className="border-2">
             <img
               className="lg:w-[7rem] lg:h-[7rem] object-cover"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFzYM-9eJYesIHUTZSXmsUiZ8f1O87BGqpfA&s"
+              src={task.image}
               alt="car-rental"
             />
           </div>
           <div className="space-y-5">
             <div className="space-y-2">
-              <h1 className="font-bold text-lg">Car Rental Website</h1>
-              <p className="text-gray-500 text-sm">Use Latest Tools</p>
+              <h1 className="font-bold text-lg">{task.title}</h1>
+              <p className="text-gray-500 text-sm">{task.description}</p>
             </div>
             <div className="flex flex-wrap gap-2 items-center">
-              {[1, 1, 1, 1].map((item) => (
-                <span className="py-1 px-5 rounded-full techStack">
-                  Angular {item}
-                </span>
+              {task.tags.map((tag: string) => (
+                <span className="py-1 px-5 rounded-full techStack">{tag}</span>
               ))}
             </div>
           </div>

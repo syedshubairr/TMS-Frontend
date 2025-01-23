@@ -1,16 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { api, setAuthHeader } from "../apiClient";
 import { taskDataType } from "./types";
 
 export const fetchTasks = createAsyncThunk(
   "task/fetchTasks",
-  async ({ status }: { status: boolean }) => {
+  async ({ status }: { status?: string }) => {
+    console.log("jwt by shub", localStorage.getItem("jwt"));
     setAuthHeader(localStorage.getItem("jwt"), api);
     try {
-      const { data } = await api.get("api/task", {
+      const { data } = await api.get("/api/task", {
         params: { status },
       });
-      console.log("fetch tasks: ", data);
+      console.log("fetch tasks response: ", data);
       return data;
     } catch (error: any) {
       console.log("error: ", error);

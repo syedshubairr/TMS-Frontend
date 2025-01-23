@@ -36,7 +36,7 @@ export const fetchAllSubmissions = createAsyncThunk(
 export const fetchSubmissionByTaskId = createAsyncThunk(
   "submission/fetchSubmissionByTaskId",
   async ({ taskId }: { taskId: number }) => {
-    setAuthHeader(localStorage.getItem("jwt"), api);
+    console.log("jwt by shu", localStorage.getItem("jwt"));
     try {
       const { data } = await api.get(`/api/submission/task/${taskId}`);
       console.log("Fetch Task by id", data);

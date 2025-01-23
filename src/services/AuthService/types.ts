@@ -1,5 +1,5 @@
 export interface userDataType {
-  name: string;
+  email: string;
   password: string;
 }
 export interface authResponse {

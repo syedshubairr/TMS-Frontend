@@ -3,12 +3,20 @@ import { darkTheme } from "./theme/darkTheme";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
+import { useAppDispatch, useAppSelector } from "./redux/store";
+import { useEffect } from "react";
+import { getUserProfile } from "./services/AuthService";
 
 function App() {
-  const user = true;
+  const dispatch = useAppDispatch();
+  const { auth } = useAppSelector((store) => store);
+  useEffect(() => {
+    // TODO: Get User profile handling when JWT is not provided, with ERROR on page.
+    dispatch(getUserProfile(auth.jwt || localStorage.getItem("jwt") || ""));
+  }, [auth.jwt]);
   return (
     <ThemeProvider theme={darkTheme}>
-      {user ? (
+      {auth.user ? (
         <div>
           <Navbar />
           <Home />
