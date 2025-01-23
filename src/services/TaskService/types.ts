@@ -1,13 +1,11 @@
+import { Dayjs } from "dayjs";
+
 export interface taskDataType {
-  id: number;
   title: string;
   description: string;
   image: string;
-  assignedUserId: number;
   tags: string[];
-  deadline: string;
-  createdAt: string;
-  status: TaskStatus;
+  deadline: Dayjs | null;
 }
 
 export enum TaskStatus {

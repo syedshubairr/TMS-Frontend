@@ -6,7 +6,6 @@ import { taskDataType } from "./types";
 export const fetchTasks = createAsyncThunk(
   "task/fetchTasks",
   async ({ status }: { status?: string | null }) => {
-    console.log("jwt by shub", localStorage.getItem("jwt"));
     setAuthHeader(localStorage.getItem("jwt"), api);
     try {
       const { data } = await api.get("/api/task", {
@@ -58,11 +57,11 @@ export const createTask = createAsyncThunk(
   async (taskData: taskDataType) => {
     setAuthHeader(localStorage.getItem("jwt"), api);
     try {
-      const { data } = await api.post(`api/tasks`, taskData);
+      const { data } = await api.post(`api/task`, taskData);
       console.log("create tasks", data);
       return data;
     } catch (error: any) {
-      console.log("error: ", error);
+      console.log("error: ", error.response);
       throw Error(error.response.data.error);
     }
   }

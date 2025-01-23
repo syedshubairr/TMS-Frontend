@@ -8,7 +8,10 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import moment from "moment";
+import { useAppDispatch } from "../../../../redux/store";
+import { createTask } from "../../../../services/TaskService";
+import { Dayjs } from "dayjs";
+import { dateConverter } from "../../../../utils";
 
 const style = {
   position: "absolute",
@@ -24,12 +27,13 @@ const style = {
 const tags = ["Angular", "React", "Java", "Micro-Services", "NodeJS"];
 const CreateNewTaskForm: FC<ModalProps> = ({ handleClose, open }) => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const dispatch = useAppDispatch();
   const [formData, setFormData] = useState<FormData>({
     title: "",
     image: "",
     description: "",
-    tag: [],
-    deadline: "",
+    tags: [],
+    deadline: null,
   });
 
   const handleChange = (e: any) => {
@@ -42,15 +46,18 @@ const CreateNewTaskForm: FC<ModalProps> = ({ handleClose, open }) => {
   const handleTagsChange = (event: any, value: string[]) => {
     setSelectedTags(value);
   };
-  const handleDeadlineChange = (date: any) => {
+  const handleDeadlineChange = (date: Dayjs | null) => {
+    console.log("dayjs", date);
     setFormData({
       ...formData,
-      deadline: moment(date.$d).format("YYYY-MM-DD"),
+      deadline: date,
     });
   };
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    formData.tag = selectedTags;
+    formData.tags = selectedTags;
+    dateConverter(formData.deadline);
+    dispatch(createTask(formData));
     handleClose(false);
   };
   return (
