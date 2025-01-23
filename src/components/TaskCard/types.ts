@@ -6,6 +6,7 @@ export type TaskCardType = {
   task: TaskType;
 };
 type TaskType = {
+  id: number;
   image: string;
   title: string;
   description: string;

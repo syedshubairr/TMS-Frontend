@@ -6,8 +6,11 @@ import UserList from "./ListAndForms/UserList";
 import EditTaskForm from "./ListAndForms/EditTaskForm";
 import SubmissionList from "./ListAndForms/SubmissionList";
 import { TaskCardType } from "./types";
+import { useAppDispatch } from "../../redux/store";
+import { deleteTask } from "../../services/TaskService";
 const role = "ROLE_ADMIN";
 const TaskCard = ({ task }: TaskCardType) => {
+  const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openUserList, setOpenUserList] = useState<boolean>(false);
   const [openSubmissionList, setOpenSubmissionList] = useState<boolean>(false);
@@ -41,7 +44,10 @@ const TaskCard = ({ task }: TaskCardType) => {
     setOpenEditTaskForm(false);
   };
 
-  const handleDeleteTask = () => {};
+  const handleDeleteTask = () => {
+    dispatch(deleteTask(task.id));
+    handleMenuClose();
+  };
 
   const handleUserList = (
     setOpenUserList: (open: boolean) => void,
