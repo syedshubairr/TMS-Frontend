@@ -1,13 +1,13 @@
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./style.css";
-import { FC, useState } from "react";
+import { useState } from "react";
 import UserList from "./ListAndForms/UserList";
 import EditTaskForm from "./ListAndForms/EditTaskForm";
 import SubmissionList from "./ListAndForms/SubmissionList";
 import { TaskCardType } from "./types";
 const role = "ROLE_ADMIN";
-const TaskCard: FC<TaskCardType> = ({ task }) => {
+const TaskCard = ({ task }: TaskCardType) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openUserList, setOpenUserList] = useState<boolean>(false);
   const [openSubmissionList, setOpenSubmissionList] = useState<boolean>(false);
@@ -96,7 +96,7 @@ const TaskCard: FC<TaskCardType> = ({ task }) => {
             }}
           >
             {role === "ROLE_ADMIN" ? (
-              <>
+              <div>
                 <MenuItem
                   onClick={() => {
                     handleUserList(setOpenUserList, handleMenuClose);
@@ -125,9 +125,9 @@ const TaskCard: FC<TaskCardType> = ({ task }) => {
                   Edit
                 </MenuItem>
                 <MenuItem onClick={handleDeleteTask}>Delete</MenuItem>
-              </>
+              </div>
             ) : (
-              <></>
+              <div></div>
             )}
           </Menu>
         </div>

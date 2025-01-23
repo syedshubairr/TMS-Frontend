@@ -10,7 +10,7 @@ export interface taskDataType {
   status: TaskStatus;
 }
 
-enum TaskStatus {
+export enum TaskStatus {
   PENDING = "PENDING",
   ASSIGNED = "ASSIGNED",
   DONE = "DONE",

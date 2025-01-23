@@ -28,7 +28,7 @@ const Sidebar = () => {
         : location.pathname;
       navigate(updatedPath);
     } else {
-      updatedParams.set("filter", menuItem);
+      updatedParams.set("filter", menuItem.toUpperCase());
       navigate(`${location.pathname}?${updatedParams.toString()}`);
     }
     setActiveMenu(menuItem);

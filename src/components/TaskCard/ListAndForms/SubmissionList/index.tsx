@@ -31,8 +31,8 @@ const SubmissionList: FC<ModalProps> = ({ handleClose, open }) => {
           <div>
             {submissions.length > 0 ? (
               <div className="space-y-2">
-                {submissions.map((sub) => (
-                  <SubmissionCard />
+                {submissions.map((sub, index) => (
+                  <SubmissionCard key={index} />
                 ))}
               </div>
             ) : (

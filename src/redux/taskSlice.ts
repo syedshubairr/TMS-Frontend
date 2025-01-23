@@ -25,18 +25,15 @@ const taskSlice = createSlice({
     builder
       .addCase(fetchTasks.pending, (state) => {
         state.loading = true;
-        console.log("payload 1");
         state.error = null;
       })
       .addCase(fetchTasks.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        console.log("payload f", action.payload);
         state.tasks = action.payload;
       })
       .addCase(fetchTasks.rejected, (state, action) => {
         state.loading = false;
-        console.log("payload r", action.error.message);
         state.error = action.error.message;
       })
 
