@@ -47,7 +47,6 @@ const CreateNewTaskForm: FC<ModalProps> = ({ handleClose, open }) => {
     setSelectedTags(value);
   };
   const handleDeadlineChange = (date: Dayjs | null) => {
-    console.log("dayjs", date);
     setFormData({
       ...formData,
       deadline: date,
