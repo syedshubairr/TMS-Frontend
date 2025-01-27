@@ -8,7 +8,11 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import moment from "moment";
+import { useAppDispatch, useAppSelector } from "../../../../redux/store";
+import { fetchTaskById, updateTask } from "../../../../services/TaskService";
+import dayjs, { Dayjs } from "dayjs";
+import { tags } from "../../../../utils";
+import BackdropLoader from "../../../BackdropLoader";
 
 const style = {
   position: "absolute",
@@ -21,15 +25,16 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-const tags = ["Angular", "React", "Java", "Micro-Services", "NodeJS"];
-const EditTaskForm: FC<ModalProps> = ({ handleClose, open }) => {
+const EditTaskForm: FC<ModalProps> = ({ handleClose, open, taskId }) => {
+  const dispatch = useAppDispatch();
+  const { task } = useAppSelector((state) => state);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [formData, setFormData] = useState<FormData>({
     title: "",
     image: "",
     description: "",
-    tag: [],
-    deadline: "",
+    tags: [],
+    deadline: null,
   });
 
   const handleChange = (e: any) => {
@@ -40,100 +45,119 @@ const EditTaskForm: FC<ModalProps> = ({ handleClose, open }) => {
     });
   };
   const handleTagsChange = (event: any, value: string[]) => {
+    // TODO: Changing of tags is not working.
     setSelectedTags(value);
   };
-  const handleDeadlineChange = (date: any) => {
+  const handleDeadlineChange = (date: Dayjs | Date | null) => {
     setFormData({
       ...formData,
-      deadline: moment(date.$d).format("YYYY-MM-DD"),
+      deadline: date,
     });
   };
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    formData.tag = selectedTags;
+    formData.tags = selectedTags;
+    dispatch(updateTask({ id: taskId, updateTaskData: formData }));
     handleClose(false);
   };
 
-  // useEffect(() => {}, []);
+  useEffect(() => {
+    if (taskId) {
+      dispatch(fetchTaskById({ taskId }));
+    }
+  }, [dispatch, taskId]);
+
+  useEffect(() => {
+    if (task.taskDetails && task.taskDetails.id === taskId) {
+      setFormData(task.taskDetails);
+      setSelectedTags(task.taskDetails.tags);
+    }
+  }, [task.taskDetails, taskId]);
 
   return (
     <div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <form onSubmit={handleSubmit}>
-            <Grid2 container spacing={2} alignItems={"center"}>
-              <Grid2 size={{ xs: 12 }}>
-                <TextField
-                  label="Title"
-                  name="title"
-                  fullWidth
-                  value={formData.title}
-                  onChange={handleChange}
-                />
+      {task.loading ? (
+        <BackdropLoader isOpen={task.loading} />
+      ) : (
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <form onSubmit={handleSubmit}>
+              <Grid2 container spacing={2} alignItems={"center"}>
+                <Grid2 size={{ xs: 12 }}>
+                  <TextField
+                    label="Title"
+                    name="title"
+                    fullWidth
+                    value={formData.title}
+                    onChange={handleChange}
+                  />
+                </Grid2>
+                <Grid2 size={{ xs: 12 }}>
+                  <TextField
+                    label="Image"
+                    name="image"
+                    fullWidth
+                    value={formData.image}
+                    onChange={handleChange}
+                  />
+                </Grid2>
+                <Grid2 size={{ xs: 12 }}>
+                  <TextField
+                    label="Description"
+                    name="description"
+                    fullWidth
+                    multiline
+                    rows={4}
+                    value={formData.description}
+                    onChange={handleChange}
+                  />
+                </Grid2>
+                <Grid2 size={{ xs: 12 }}>
+                  <Autocomplete
+                    multiple
+                    id="multiple-limit-tags"
+                    value={formData.tags}
+                    options={tags}
+                    onChange={handleTagsChange}
+                    getOptionLabel={(option) => option}
+                    renderInput={(params) => (
+                      <TextField label="Tags" {...params} />
+                    )}
+                  />
+                </Grid2>
+                <Grid2 size={{ xs: 12 }}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={["DatePicker"]}>
+                      <DatePicker
+                        onChange={handleDeadlineChange}
+                        className="w-full"
+                        label="Deadline"
+                        value={dayjs(formData.deadline)}
+                      />
+                    </DemoContainer>
+                  </LocalizationProvider>
+                </Grid2>
+                <Grid2 size={{ xs: 12 }}>
+                  <Button
+                    className="customButton"
+                    type="submit"
+                    fullWidth
+                    sx={{ padding: "0.9rem" }}
+                    onClick={handleSubmit}
+                  >
+                    Update
+                  </Button>
+                </Grid2>
               </Grid2>
-              <Grid2 size={{ xs: 12 }}>
-                <TextField
-                  label="Image"
-                  name="image"
-                  fullWidth
-                  value={formData.image}
-                  onChange={handleChange}
-                />
-              </Grid2>
-              <Grid2 size={{ xs: 12 }}>
-                <TextField
-                  label="Description"
-                  name="description"
-                  fullWidth
-                  multiline
-                  rows={4}
-                  value={formData.description}
-                  onChange={handleChange}
-                />
-              </Grid2>
-              <Grid2 size={{ xs: 12 }}>
-                <Autocomplete
-                  multiple
-                  id="multiple-limit-tags"
-                  options={tags}
-                  onChange={handleTagsChange}
-                  getOptionLabel={(option) => option}
-                  renderInput={(params) => (
-                    <TextField label="Tags" {...params} />
-                  )}
-                />
-              </Grid2>
-              <Grid2 size={{ xs: 12 }}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={["DatePicker"]}>
-                    <DatePicker
-                      onChange={handleDeadlineChange}
-                      className="w-full"
-                      label="Deadline"
-                    />
-                  </DemoContainer>
-                </LocalizationProvider>
-              </Grid2>
-              <Grid2 size={{ xs: 12 }}>
-                <Button
-                  className="customButton"
-                  type="submit"
-                  fullWidth
-                  sx={{ padding: "0.9rem" }}
-                  onClick={handleSubmit}
-                >
-                  Update
-                </Button>
-              </Grid2>
-            </Grid2>
-          </form>
-        </Box>
-      </Modal>
+            </form>
+          </Box>
+        </Modal>
+      )}
     </div>
   );
 };

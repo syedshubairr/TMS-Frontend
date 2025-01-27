@@ -11,7 +11,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useAppDispatch } from "../../../../redux/store";
 import { createTask } from "../../../../services/TaskService";
 import { Dayjs } from "dayjs";
-import { dateConverter } from "../../../../utils";
+import { dateConverter, tags } from "../../../../utils";
 
 const style = {
   position: "absolute",
@@ -24,7 +24,6 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-const tags = ["Angular", "React", "Java", "Micro-Services", "NodeJS"];
 const CreateNewTaskForm: FC<ModalProps> = ({ handleClose, open }) => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const dispatch = useAppDispatch();

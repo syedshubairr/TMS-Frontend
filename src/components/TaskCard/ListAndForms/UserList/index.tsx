@@ -37,7 +37,7 @@ const UserList: FC<ModalProps> = ({ handleClose, open }) => {
       >
         <Box sx={style}>
           {task.map((item, index) => (
-            <>
+            <div key={index}>
               <div className="flex items-center justify-between w-full">
                 <div>
                   <ListItem>
@@ -55,7 +55,7 @@ const UserList: FC<ModalProps> = ({ handleClose, open }) => {
                 </div>
               </div>
               {index != task.length - 1 && <Divider variant="inset" />}
-            </>
+            </div>
           ))}
         </Box>
       </Modal>

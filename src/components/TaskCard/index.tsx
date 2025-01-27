@@ -1,16 +1,21 @@
+import { useState, Suspense, lazy } from "react";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./style.css";
-import { useState } from "react";
-import UserList from "./ListAndForms/UserList";
-import EditTaskForm from "./ListAndForms/EditTaskForm";
-import SubmissionList from "./ListAndForms/SubmissionList";
 import { TaskCardType } from "./types";
 import { useAppDispatch } from "../../redux/store";
 import { deleteTask } from "../../services/TaskService";
+import { useLocation, useNavigate } from "react-router-dom";
+import BackdropLoader from "../BackdropLoader";
+
+const UserList = lazy(() => import("./ListAndForms/UserList"));
+const EditTaskForm = lazy(() => import("./ListAndForms/EditTaskForm"));
+const SubmissionList = lazy(() => import("./ListAndForms/SubmissionList"));
 const role = "ROLE_ADMIN";
 const TaskCard = ({ task }: TaskCardType) => {
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openUserList, setOpenUserList] = useState<boolean>(false);
   const [openSubmissionList, setOpenSubmissionList] = useState<boolean>(false);
@@ -37,11 +42,15 @@ const TaskCard = ({ task }: TaskCardType) => {
     setEditTaskList: (open: boolean) => void,
     handleMenuClose: () => void
   ) => {
+    const updatedParams = new URLSearchParams(location.search);
+    updatedParams.set("taskId", task.id.toString());
+    navigate(`${location.pathname}?${updatedParams.toString()}`);
     setEditTaskList(true);
     handleMenuClose();
   };
   const handleCloseUpdateTaskForm = () => {
     setOpenEditTaskForm(false);
+    navigate(`${location.pathname}`);
   };
 
   const handleDeleteTask = () => {
@@ -76,8 +85,10 @@ const TaskCard = ({ task }: TaskCardType) => {
               <p className="text-gray-500 text-sm">{task.description}</p>
             </div>
             <div className="flex flex-wrap gap-2 items-center">
-              {task.tags.map((tag: string) => (
-                <span className="py-1 px-5 rounded-full techStack">{tag}</span>
+              {task.tags.map((tag: string, index) => (
+                <span className="py-1 px-5 rounded-full techStack" key={index}>
+                  {tag}
+                </span>
               ))}
             </div>
           </div>
@@ -138,15 +149,24 @@ const TaskCard = ({ task }: TaskCardType) => {
           </Menu>
         </div>
       </div>
-      <UserList open={openUserList} handleClose={handleCloseUserList} />
-      <SubmissionList
-        open={openSubmissionList}
-        handleClose={handleCloseSubmissionList}
-      />
-      <EditTaskForm
-        open={openEditTaskForm}
-        handleClose={handleCloseUpdateTaskForm}
-      />
+      <Suspense fallback={<BackdropLoader isOpen={true} />}>
+        <UserList open={openUserList} handleClose={handleCloseUserList} />
+      </Suspense>
+      <Suspense fallback={<BackdropLoader isOpen={true} />}>
+        <SubmissionList
+          open={openSubmissionList}
+          handleClose={handleCloseSubmissionList}
+        />
+      </Suspense>
+      <Suspense fallback={<BackdropLoader isOpen={true} />}>
+        {openEditTaskForm && (
+          <EditTaskForm
+            open={openEditTaskForm}
+            handleClose={handleCloseUpdateTaskForm}
+            taskId={task.id}
+          />
+        )}
+      </Suspense>
     </div>
   );
 };

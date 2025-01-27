@@ -42,7 +42,6 @@ export const fetchTaskById = createAsyncThunk(
     setAuthHeader(localStorage.getItem("jwt"), api);
     try {
       const { data } = await api.get(`api/task/${taskId}`);
-      console.log("fetch tasks by id: ", data);
       return data;
     } catch (error: any) {
       console.log("error: ", error);

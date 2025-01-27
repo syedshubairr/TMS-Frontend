@@ -1,8 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { thunk } from "redux-thunk";
-import authSlice from "./authSlice";
-import taskSlice from "./taskSlice";
-import submissionSlice from "./submissionSlice";
+import authSlice from "./slice/authSlice";
+import taskSlice from "./slice/taskSlice";
+import submissionSlice from "./slice/submissionSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const rootReducer = combineReducers({

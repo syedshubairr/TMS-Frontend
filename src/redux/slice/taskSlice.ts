@@ -3,11 +3,12 @@ import {
   assignTaskToUser,
   createTask,
   deleteTask,
+  fetchTaskById,
   fetchTasks,
   fetchUsersTasks,
   updateTask,
-} from "../services/TaskService";
-import { taskInitialState } from "./types";
+} from "../../services/TaskService";
+import { taskInitialState } from "../types";
 
 const initialState: taskInitialState = {
   tasks: [],
@@ -36,7 +37,12 @@ const taskSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-
+      // .addCase(fetchTaskById.pending, (state, action) => {
+      //TODO: Need to implement loading for fetching.
+      // })
+      .addCase(fetchTaskById.fulfilled, (state, action) => {
+        state.taskDetails = action.payload;
+      })
       .addCase(fetchUsersTasks.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -63,7 +69,7 @@ const taskSlice = createSlice({
         state.error = action.error.message;
       })
 
-      .addCase(updateTask.rejected, (state, action: any) => {
+      .addCase(updateTask.fulfilled, (state, action: any) => {
         const updateTask = action.payload;
         state.loading = false;
         state.tasks = state.tasks.map((task) =>

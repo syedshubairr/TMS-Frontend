@@ -5,8 +5,8 @@ import {
   login,
   logout,
   register,
-} from "../services/AuthService";
-import { userInitialState } from "./types";
+} from "../../services/AuthService";
+import { userInitialState } from "../types";
 
 const initialState: userInitialState = {
   user: null,

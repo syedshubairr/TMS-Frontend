@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 export interface userInitialState {
   user: null | userType;
   loggedIn: boolean;
@@ -27,7 +29,7 @@ type taskType = {
   image: string;
   assignedUserId: number;
   tags: string[];
-  deadline: string;
+  deadline: Dayjs | null;
   createdAt: string;
   status: TaskStatus;
 };

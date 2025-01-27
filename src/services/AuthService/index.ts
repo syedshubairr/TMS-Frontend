@@ -52,7 +52,6 @@ export const getUserProfile = createAsyncThunk(
     setAuthHeader(jwt, api);
     try {
       const data = await api.get("api/users/profile");
-      console.log("Get Profile Success", data);
       return data;
     } catch (error) {
       console.log("Get Profile Error", error);

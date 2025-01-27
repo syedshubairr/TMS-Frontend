@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { submissionInitialState } from "./types";
+import { submissionInitialState } from "../types";
 import {
   acceptDeclineSubmission,
   fetchAllSubmissions,
   fetchSubmissionByTaskId,
   submitTask,
-} from "../services/SubmissionService";
+} from "../../services/SubmissionService";
 
 const initialState: submissionInitialState = {
   error: null,

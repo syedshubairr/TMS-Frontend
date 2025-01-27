@@ -5,7 +5,7 @@ export interface taskDataType {
   description: string;
   image: string;
   tags: string[];
-  deadline: Dayjs | null;
+  deadline: Dayjs | null | Date;
 }
 
 export enum TaskStatus {
