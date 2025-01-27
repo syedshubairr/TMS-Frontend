@@ -46,7 +46,12 @@ const EditTaskForm: FC<ModalProps> = ({ handleClose, open, taskId }) => {
   };
   const handleTagsChange = (event: any, value: string[]) => {
     // TODO: Changing of tags is not working.
+    console.log("tags change function", value);
     setSelectedTags(value);
+    // setFormData({
+    //   ...formData,
+    //   tags: value,
+    // });
   };
   const handleDeadlineChange = (date: Dayjs | Date | null) => {
     setFormData({
@@ -56,7 +61,10 @@ const EditTaskForm: FC<ModalProps> = ({ handleClose, open, taskId }) => {
   };
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    formData.tags = selectedTags;
+    setFormData({
+      ...formData,
+      tags: selectedTags,
+    });
     dispatch(updateTask({ id: taskId, updateTaskData: formData }));
     handleClose(false);
   };
@@ -121,7 +129,8 @@ const EditTaskForm: FC<ModalProps> = ({ handleClose, open, taskId }) => {
                   <Autocomplete
                     multiple
                     id="multiple-limit-tags"
-                    value={formData.tags}
+                    value={selectedTags}
+                    // value={formData.tags}
                     options={tags}
                     onChange={handleTagsChange}
                     getOptionLabel={(option) => option}
