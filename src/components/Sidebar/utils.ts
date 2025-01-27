@@ -22,6 +22,3 @@ export const menu = [
     role: ["ROLE_CUSTOMER"],
   },
 ];
-export const handleLogout = () => {
-  console.log("Logout triggered");
-};

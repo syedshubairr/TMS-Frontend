@@ -60,6 +60,7 @@ const EditTaskForm: FC<ModalProps> = ({ handleClose, open, taskId }) => {
     });
   };
   const handleSubmit = (e: any) => {
+    // TODO: The tags are being updated in UI but not in API.
     e.preventDefault();
     setFormData({
       ...formData,

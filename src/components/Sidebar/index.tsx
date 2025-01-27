@@ -1,14 +1,17 @@
 import { Avatar, Button } from "@mui/material";
 import "./style.css";
-import { handleLogout, menu } from "./utils";
+import { menu } from "./utils";
 import { useState } from "react";
 import CreateNewTaskForm from "../TaskCard/ListAndForms/CreateTaskForm";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../redux/store";
+import { logout } from "../../services/AuthService";
 
 const Sidebar = () => {
   const [activeMenu, setActiveMenu] = useState("Home");
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [openCreateTaskForm, setCreateEditTaskForm] = useState<boolean>(false);
   const handleOpenCreateTaskForm = () => {
     setCreateEditTaskForm(true);
@@ -33,7 +36,9 @@ const Sidebar = () => {
     }
     setActiveMenu(menuItem);
   };
-
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   return (
     <>
       <div className="card min-h-[85vh] flex flex-col justify-center fixed w-[20vw]">

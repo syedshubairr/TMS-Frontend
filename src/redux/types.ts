@@ -6,7 +6,7 @@ export interface userInitialState {
   loading: boolean;
   error: null | string | undefined;
   jwt: null | string;
-  users: [] | userType[];
+  users: userType[];
 }
 
 type userType = {

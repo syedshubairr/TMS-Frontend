@@ -63,7 +63,10 @@ export const getUserProfile = createAsyncThunk(
 
 export const getUsersList = createAsyncThunk(
   "auth/getUserList",
-  async (jwt: string) => {
+  async (jwt: string | null) => {
+    if (jwt === null) {
+      console.log("JWT NOT HERE");
+    }
     setAuthHeader(jwt, api);
     try {
       const data = await api.get("api/users");

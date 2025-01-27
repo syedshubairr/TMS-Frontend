@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { ModalProps } from "./types";
 import {
   Avatar,
@@ -10,6 +10,8 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../../../redux/store";
+import { getUsersList } from "../../../../services/AuthService";
 
 const style = {
   position: "absolute",
@@ -24,9 +26,12 @@ const style = {
   p: 2,
 };
 
-const task = [1, 1, 1, 1];
-
 const UserList: FC<ModalProps> = ({ handleClose, open }) => {
+  const dispatch = useAppDispatch();
+  const { auth } = useAppSelector((state) => state);
+  useEffect(() => {
+    dispatch(getUsersList(localStorage.getItem("jwt")));
+  }, [dispatch]);
   return (
     <div>
       <Modal
@@ -36,7 +41,7 @@ const UserList: FC<ModalProps> = ({ handleClose, open }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          {task.map((item, index) => (
+          {auth.users.map((item, index) => (
             <div key={index}>
               <div className="flex items-center justify-between w-full">
                 <div>
@@ -45,8 +50,8 @@ const UserList: FC<ModalProps> = ({ handleClose, open }) => {
                       <Avatar src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
                     </ListItemAvatar>
                     <ListItemText
-                      primary={"Code with Zosh"}
-                      secondary={"@shubair_raza"}
+                      primary={item.fullName}
+                      secondary={item.email}
                     />
                   </ListItem>
                 </div>
@@ -54,7 +59,7 @@ const UserList: FC<ModalProps> = ({ handleClose, open }) => {
                   <Button className="customButton">Select</Button>
                 </div>
               </div>
-              {index != task.length - 1 && <Divider variant="inset" />}
+              {index != auth.users.length - 1 && <Divider variant="inset" />}
             </div>
           ))}
         </Box>
